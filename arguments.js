@@ -1,23 +1,37 @@
-function sumup(...args){
-  return args.reduce(function(accu,curr){
+function sumup(...args) {
+  return args.reduce(function(accu, curr) {
     return accu + curr;
-  })
+  });
 }
 
-Function.prototype.myBind = function(firstArg,...args){
+Function.prototype.myBind = function(firstArg, ...args) {
   let fn = this;
   let outterArgs = args;
-  return function(...args){
+  return function(...args) {
     let combined = outterArgs.concat(args);
-    fn.apply(firstArg,combined);
-  }
+    fn.apply(firstArg, combined);
+  };
+};
+
+function curriedSum(numArgs) {
+  let nums = [];
+  return function _curriedSum(num) {
+    nums.push(num);
+    if (nums.length === numArgs) {
+      return sumup(...nums);
+    }
+    return _curriedSum;
+  };
 }
 
-function curriedSum(numArgs){
+Function.prototype.curry = function(numArgs) {
+  let fn = this;
   let nums = [];
-  return function _curriedSum(num){
+  return function curried (num) {
     nums.push(num);
-    if (nums.length === numArgs){return sumup(...nums);}
-    return _curriedSum;
-  }
-}
+    if (nums.length === numArgs) {
+      return fn(...nums);
+    }
+    return curried;
+  };
+};
