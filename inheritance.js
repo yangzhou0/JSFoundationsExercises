@@ -4,6 +4,9 @@ Function.prototype.inherits = function(func){
   Surrogate.prototype = func.prototype;
   this.prototype = new Surrogate();
   this.prototype.constructor = this;
+
+  // this.prototype = Object.create(func.prototype);
+  // this.prototype.constructor = this;
 }
 
 
